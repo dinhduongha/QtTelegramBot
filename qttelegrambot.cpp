@@ -50,7 +50,7 @@ bool Bot::sendMessage(QVariant chatId, QString text, bool markdown, bool disable
     if (markdown) params.insert("parse_mode", HttpParameter("Markdown"));
     if (disableWebPagePreview) params.insert("disable_web_page_preview", HttpParameter(disableWebPagePreview));
 
-    return this->_sendPayload(chatId, text, ParameterList(), replyToMessageId, replyMarkup, "text", ENDPOINT_SEND_MESSAGE);
+    return this->_sendPayload(chatId, text, params, replyToMessageId, replyMarkup, "text", ENDPOINT_SEND_MESSAGE);
 }
 
 bool Bot::forwardMessage(QVariant chatId, quint32 fromChatId, quint32 messageId)

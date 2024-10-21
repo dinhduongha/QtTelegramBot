@@ -93,7 +93,7 @@ QByteArray Networking::parameterListToString(ParameterList list)
 
     ParameterList::iterator i = list.begin();
     while (i != list.end()) {
-        ret.append(i.key() + "=" + i.value().value + "&");
+        ret.append(i.key().toUtf8() + "=" + i.value().value + "&");
         ++i;
     }
     ret = ret.left(ret.length() - 1);
@@ -111,7 +111,7 @@ QByteArray Networking::generateMultipartBoundary(ParameterList list)
     while (i != list.end()) {
         if (i.value().isFile) {
             while (result.isEmpty() || i.value().value.contains(result)) {
-                result.append(generateRandomString(4));
+                result.append(generateRandomString(4).toUtf8());
             }
         }
         ++i;
@@ -128,13 +128,13 @@ QByteArray Networking::generateMultipartFormData(ParameterList list, QByteArray 
     while (i != list.end()) {
         HttpParameter param = i.value();
         result.append("--" + boundary + "\r\n");
-        result.append("Content-Disposition: form-data; name=\"" + i.key());
+        result.append(QByteArray("Content-Disposition: form-data; name=\"") + i.key().toUtf8());
         if (param.isFile) {
-            result.append("\"; filename=\"" + param.filename);
+            result.append("\"; filename=\"" + param.filename.toUtf8());
         }
         result.append("\"\r\n");
         if (param.isFile) {
-            result.append("Content-Type: " + param.mimeType + "\r\n");
+            result.append("Content-Type: " + param.mimeType.toUtf8() + "\r\n");
         }
         result.append("\r\n");
         result.append(param.value);

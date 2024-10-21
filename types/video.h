@@ -19,7 +19,7 @@ public:
     quint64 duration;
     PhotoSize thumb;
     QString mimeType;
-    QString fileSize;
+    qint64 fileSize;
 };
 
 inline QDebug operator<< (QDebug dbg, const Video &video)
